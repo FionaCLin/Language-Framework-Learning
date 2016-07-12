@@ -21,11 +21,18 @@ module.exports = {
     contentBase: PATHS.dist
   },
   module: {
+   
     loaders: [
       {
         test: /\.html$/,
         loader: "file?name=[name].[ext]"
-      }
+      },
+       {
+      test: /\.js$/,
+      exclude: /node_modules/,
+       loaders: ["react-hot", "babel-loader"]
+      //loaders: ["babel-loader"]
+    }
     ]
   }
 };
