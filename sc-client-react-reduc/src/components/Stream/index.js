@@ -1,14 +1,22 @@
 import React from 'react';
-import {connect} from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import * as actions from '../../actions';
 import Stream from './presenter';
 
-function mapStateToProps(state){
+function mapStateToProps(state) {
+  const { user } = state.auth;
   const tracks = state.track;
-  return{
+  return {
+    user,
     tracks
   }
 }
 
-export default connect(mapStateToProps)(Stream);
+function mapDispatchToProps(dispatch) {
+  return {
+    onAuth: bindActionCreators(actions.auth, dispatch)
+  };
+}
 
-
+export default connect(mapStateToProps, mapDispatchToProps)(Stream);
