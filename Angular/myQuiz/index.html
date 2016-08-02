@@ -10,7 +10,7 @@
 		<div id="myQuiz" ng-controller="QuizController">
 			<h1>Test your knowledge:<span>Saturn</span></h1>
 			<div class="progress"> 
-				<div ng-repeat="myQuestion in myQuestions"></div>
+				<div class=" {{ ($index === activeQuestion) ? 'on' : 'off' }}" ng-repeat="myQuestion in myQuestions"></div>
 			</div>
 
 			<div class="intro {{ (activeQuestion >-1) ? 'inactive' :'active' }}">
@@ -19,13 +19,18 @@
 				<p class="btn" ng-click="activeQuestion = 0">Begin</p>
 			</div>
 
-			<div class="question
-				{{ ($index === activeQuestion) ? 'active' : 'inactive'}}" 
+			<div class="question 
+				{{ ($index === activeQuestion) ? 'active' : 'inactive'}}
+				{{ (myQuestion.questionState === 'answered') ? 'answered' : 'unanswered'}}" 
 				 ng-repeat="myQuestion in myQuestions">
 				 <p class="txt">
 				 	{{myQuestion.question}} {{myQuestion.selectedAnswer}}
 				 </p>
 				 <p class="ans"
+				 	ng-class="{ 
+				 		selected:isSelected($parent.$index,$index), 
+				 		correct:isCorrect($parent.$index,$index)
+				 	 }"
 				 	ng-click="selectAnswer($parent.$index,$index)"
 				 	ng-repeat="Answer in myQuestions[$index].answers">
 				 	{{Answer.text}}
