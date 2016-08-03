@@ -19,7 +19,8 @@
 			
 			var questionState = $scope.myQuestions[qIndex].questionState;
 			if(	questionState != 'answered' ){
-				$scope.myQuestions[qIndex].selectAnswer=aIndex;
+
+				$scope.myQuestions[qIndex].selectedAnswer=aIndex;
 
 				var correctAnswer=$scope.myQuestions[qIndex].correct;
 
@@ -36,7 +37,7 @@
 			}
 		}
 		$scope.isSelected = function(qIndex, aIndex){
-
+			console.log("u hit me")
 			return $scope.myQuestions[qIndex].selectedAnswer === aIndex;
 		}
 		$scope.isCorrect = function(qIndex, aIndex){
