@@ -37,13 +37,14 @@
 			}
 		}
 		$scope.isSelected = function(qIndex, aIndex){
-			console.log("u hit me")
 			return $scope.myQuestions[qIndex].selectedAnswer === aIndex;
 		}
 		$scope.isCorrect = function(qIndex, aIndex){
 			return $scope.myQuestions[qIndex].correctAnswer === aIndex;
 		}
-		
+		$scope.selectContinue=function () {
+			return $scope.activeQuestion++;
+		}
 
 
 	}]);
