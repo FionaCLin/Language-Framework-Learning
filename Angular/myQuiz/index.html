@@ -10,7 +10,11 @@
 		<div id="myQuiz" ng-controller="QuizController">
 			<h1>Test your knowledge:<span>Saturn</span></h1>
 			<div class="progress"> 
-				<div class=" {{ ($index === activeQuestion) ? 'on' : 'off' }}" ng-repeat="myQuestion in myQuestions"></div>
+				<div class=" 
+				{{ ($index === activeQuestion) ? 'on' : 'off'}}
+				{{ (myQuestion.questionState === 'answered') ? 'answered' : 'unanswered'}} 
+				{{ (myQuestion.correctness === 'correct') ? 'correct' : 'incorrect' }}
+				" ng-repeat="myQuestion in myQuestions"></div>
 			</div>
 
 			<div class="intro {{ (activeQuestion >-1) ? 'inactive' :'active' }}">
@@ -44,9 +48,11 @@
 				 	<div class="btn" ng-click="selectContinue()">Continue</div>
 				 </div>
 			</div>
-			<div class="results">
+			<div class="results
+			  {{ (totalQuestions === activeQuestion) ? 'active' : 'inactive' }}
+			">
 					<h3>Results</h3>
-					<p>Your scored x% by correctly answering x of the total x questions.</p>
+					<p>Your scored {{ percentage }}% by correctly answering {{ score }} of the total {{ totalQuestions }} questions.</p>
 					<p>Use the links below to challenge your friends.</p>
 					<div class="share">
 						<a class="btn email" href="#">Email</a>

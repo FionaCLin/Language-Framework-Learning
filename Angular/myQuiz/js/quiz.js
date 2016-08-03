@@ -4,10 +4,10 @@
 
 	app.controller('QuizController',['$scope','$http','$sce',function($scope,$http,$sce){
 
-		$scope.score=0;
+		$scope.score = 0;
 		$scope.activeQuestion = -1;
-		$scope.activeQuestionAnswered =0;
-		$scope.percentage=0;
+		$scope.activeQuestionAnswered = 0;
+		$scope.percentage = 0;
 
 		$http.get('quiz_data.json').then(function(quizData){
 			$scope.myQuestions=quizData.data;
@@ -28,13 +28,15 @@
 				
 				if(aIndex === correctAnswer){
 					$scope.myQuestions[qIndex].correctness = 'correct';
-					$scope.score+=1;
+					$scope.score += 1;
 				}
 				else{
 					$scope.myQuestions[qIndex].correctness = 'incorrect';
 				}
 				$scope.myQuestions[qIndex].questionState = 'answered';
 			}
+			$scope.percentage = (($scope.score/$scope.totalQuestions)*100).toFixed(2);
+			debugger
 		}
 		$scope.isSelected = function(qIndex, aIndex){
 			return $scope.myQuestions[qIndex].selectedAnswer === aIndex;
