@@ -1,0 +1,40 @@
+COMP 1917
+Computing 1
+Session 2, 2016
+
+Tutorial - Week 3
+
+This page was last updated: 08/05/2016 14:51:08This page was last updated: 08/05/2016 14:27:32
+Tutorial Presentation
+Given a point P=(x,y) and a triangle ABC with A=(x1,y1), B=(x2,y2) and C=(x3,y3), how can you test whether the point P is inside or outside the triangle? Find out one or two methods for doing this and explain them to the class. (Note: you should explain them using mathematical formulas, not actual C code.)
+Week 3 Tutorial Questions
+
+    Write a program that given three numbers first, second and third, finds out if the numbers are in strictly descending order (first > second > third). Is there an alternative way to write this program?
+
+     1 #include <stdio.h>
+     2
+     3 int main(int argc, char* argv[]){
+     4    int first, second, third;
+     5    printf("Enter numbers: ");
+     6    scanf("%d %d %d", &num);
+     7
+     8    return 0;
+     9 }
+
+    Modify previous program to check if three numbers are in ascending or descending order.
+    Write a program that allows the user to enter at integer and then prints out that many stars, each on a new line.
+
+    % ./stars
+    Enter : 5
+
+
+Presentation Topic for Week 4
+Describe the ASCII coding system. (What does ASCII stand for?) Draw a schematic "map" of the ASCII Table on the board, showing (in both decimal and hexadecimal notation) where the following sets of characters lie:
+
+    non-printable characters
+    digits '0' to '9'
+    uppercase letters 'A' to 'Z'
+    lowercase letters 'a' to 'z'
+    punctuation 
+
+

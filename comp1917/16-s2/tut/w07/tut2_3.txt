@@ -1,0 +1,26 @@
+2. How would you free the allocated block after you've finished using it?
+
+use free( pointer );
+
+
+
+What are some of the implications of not freeing the memory?
+
+
+memory leak?
+run out of memory?
+
+3. What is wrong with the following example
+
+int main(int argc, char *argv[]){
+    int size = 0;
+    scanf("%d", &size);
+    int *arr = createArray(size);
+
+    return 0;
+}
+( incompatible return type ?)
+int *createArray(int size){ // expect return type integer pointer
+    int new_array[size]; // integer
+    return new_array;
+}

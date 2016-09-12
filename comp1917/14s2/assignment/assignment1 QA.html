@@ -1,0 +1,174 @@
+<html>
+<head>
+<title>COMP1917 UNSW</title>
+</head>
+
+<body bgcolor="#ffffff" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+<center><h1>Assignment 1 FAQ</h1>
+
+<config timefmt="%H:%M %A, %e %B, %Y">
+<font color="red" size=2>This page was last updated: </font>09:38 Saturday, 16 August, 2014
+by <a style="color:black; " href="mailto:cs1917.hw1@cse.unsw.edu.au">cs1917.hw1@cse.unsw.edu.au</a>
+</center>
+<hr>
+<ol>
+<!-- Add the FAQ from here -->
+
+<p>
+<li><b>Have there been any updates to the compiled programs in the <code>hw1.i86</code> and <code>hw1.mac</code>?</b>
+<p>
+Yes, these were updated at 2pm on Friday 15 August.
+Please be sure to download the updated versions from 
+<a href="./tools"><code>tools</code></a> directory.<br>
+(the original <code>hw1.mac</code>
+produced erroneous output for <code>s6.in</code>;
+although no problems were noticed with <code>hw1.i86</code>
+it would be safest to download the updated version anyway).
+
+<p>
+<li><b>Can you provide us with some sample input and output?</b>
+<p>
+There are a few sample inputs in the <a href="./sample">sample</a> directory.
+You are encouraged to also make up some of your own.
+For any given input, you can use the compiled program
+in  the <a href="./tools">tools</a> directory to generate the target output.
+
+<p>
+<li><b>How do we run the compiled version, and how can we test our program?</b>
+<p>
+First, copy <code>hw1.i86</code> to your own directory.
+You will then need to make it "executable" by typing:
+<pre>
+$ chmod a+x hw1.i86
+</pre>
+You can now test your program using input and output redirection,
+combined with the <code>diff</code> command, as follows:
+<pre>
+$ ./hw1.i86 < s1.in > s1.tgt
+$ gcc -Wall hw1.c
+$ ./a.out < s1.in > s1.out
+$ diff s1.out s1.tgt
+$
+</pre>
+The <code>diff</code> command looks for the differences between two files.
+If the two files are identical <code>diff</code> will return you to the
+command prompt without producing any output. Otherwise, it will print
+all the lines where the two files differ. Consider the following example:
+<pre>
+$ diff s1.out s1.tgt
+2,3c2
+&lt; 0-0 
+&lt; 
+---
+&gt; 0-0
+</pre>
+This output means that lines 2 and 3 of <code>s1.out</code> are being
+compared to line 2 of <code>s1.tgt</code> .
+We see that there is an additional (blank) line in
+<code>s1.out</code>, and that line 2 is also different in the two files.
+Sometimes the two lines may look identical on the screen,
+which suggests there may be a non-printable character or an
+extra blank space at the end of the line. Before submitting,
+you should make sure that the output of your program is
+<b>exactly</b> the same as that of the supplied program.
+
+<p>
+<li><b>Can you give us some hints on how to get started?</b>
+<p>
+Your program should probably have a loop like this:
+<pre>
+  int ch;
+
+  while(( ch = getchar()) != EOF ) { // be careful with parentheses!
+     if( ch == 'S' ) {
+         ...
+     }
+     else if( ch == 'A' ) {
+         ...
+     }
+     else if( ch == 'B' ) {
+         ...
+     }
+  }
+</pre>
+[See Course Notes, Chapter 8, slides 4-7 for further explanation.]<br>
+You might like to use an array to store the number of games
+won by Team A (or Team B) in each of the (up to 5) sets.
+(Take care not to over-run the array!)
+
+<p>
+<li><b>Which team serves first?</b>
+<p>
+You should assume that Team A always serves
+for the first game of the match.
+
+<p>
+<li><b>Can we use strings?</b>
+<p>
+Strings are not covered until later in the course
+and are <b>not</b> recommended for this assignment.
+However, if you insist on using them, you may find this
+code useful:
+<pre>
+char *name[4] = { "Love", "15", "30", "40" };
+
+for( i=0; i < 4; i++ ) {
+  printf( "%s", name[i] );
+}
+</pre>
+
+<p>
+<li><b>When I submit, it says <code>"CPU time limit exceeded"</code>?</b>
+<p>
+Your program is going into an infinite loop.
+You can probably fix it by adding code like this:
+<pre>
+if( ch == EOF) {
+   exit(0);
+}
+</pre>
+or changing your <code>scanf()</code> statement to this:
+<pre>
+if( scanf("%c",&ch) <= 0 ) {
+   exit(0);
+}
+</pre>
+
+<p>
+<li><b>How can the score for a set be bigger than 6 ?</b>
+<p>
+To win a set, one team must score at least 6 games,
+and at least two games more than the other team.
+Scores of 5-7 or 7-5 are possible in the first four sets,
+and higher scores are possible in the fifth set
+(with games continuing to be played until one team
+has a two-game lead).
+
+<p>
+<li><b>Can you provide sample input and output for the bonus challenge?</b>
+<p>
+There are a couple of sample tie-break inputs in the
+<a href="./bonus">bonus</a> directory.
+
+<p>
+<li><b>During the tie-break, whose score should be listed first?</b>
+<p>
+The score for whichever team served the <b>first</b> point of the tie-break
+should be listed first, <b>not</b> the team serving the current point.<br>
+(Although confusing, this has become standard practice in televised coverage
+because otherwise the audience would get even more confused with ordering
+of the score swapping back and forth so frequently.)
+
+<!-- Do not change from here -->
+</ol>
+<hr width=70%>
+<center>
+<b><a href="./index.html">Back to Assignment 1</a> | <a href="http://www.cse.unsw.edu.au/~cs1917/14s2">Back to
+ the main page</a></b>
+</center>
+
+<!--<div align=right><config timefmt="%e %B, %Y">-->
+<!--Last updated: <flastmod file="$DOCUMENT_NAME">-->
+<!--by <a style="color:black;" href="mailto:cs1917.hw1@cse.unsw.edu.au">cs1917.hw1</a></div>-->
+</body>
+</html>
