@@ -1,4 +1,4 @@
-/*
+/*l
  * TimeRTC.pde
  * example code illustrating Time library with Real Time Clock.
  * 
@@ -13,7 +13,6 @@ int ledYellowPin = 10;                // Connect an Amber LED on pin 10, or use 
 int ledGreenPin = 11;                // Connect an Green LED on pin 11, or use the onboard one
 int sensor_in = A0;   
 
-const int DS1307 = 0x68; // Address of DS1307 see data sheets
 const char* days[] =
 {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
 const char* months[] =
@@ -62,11 +61,11 @@ void setup()  {
   } 
 }
 
-void loop(){
+void loop()tu = map(sensorValue,2900,4750,2000,0); // Convert the analog reading (which goes from 0 - 1023) to a voltage (0 - 5V):
+  float ntu = map(sensorValue,2000,0,2900,4750{
   int sensorValue = analogRead(sensor_in);// read the input on analog pin 0:
   float voltage = map(sensorValue,0,1023,0,5000); // Convert the analog reading (which goes from 0 - 1023) to a voltage (0 - 5V):
-  float ntu = map(sensorValue,0,4100,3000,0.5); // Convert the analog reading (which goes from 0 - 1023) to a voltage (0 - 5V):
-  
+  //float n); 
   if(ntu > 10){       //read sensor signal 
       digitalWrite(ledRedPin, HIGH);   // if led is LOW, then turn on
   }else if (ntu <= 6 && ntu >= 10) {
@@ -79,8 +78,7 @@ void loop(){
   if (timeStatus() == 1 ) {
     Serial.print("NTU value: ");
     Serial.print(ntu); // print out the value you read:
-    digitalClockDisplay();
-    
+    digitalClockDisplay(); 
   } else {
     Serial.println("The time has not been set.  Please run the Time");
     Serial.println("TimeRTCSet example, or DS1307RTC SetTime example.");
@@ -154,9 +152,4 @@ void printDigits(int digits){
     Serial.print('0');
   Serial.print(digits);
 }
-byte decToBcd(byte val) {
-  return ((val/10*16) + (val%10));
-}
-byte bcdToDec(byte val) {
-  return ((val/16*10) + (val%16));
-}
+
