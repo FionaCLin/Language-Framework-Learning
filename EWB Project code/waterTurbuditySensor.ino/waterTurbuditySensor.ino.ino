@@ -16,7 +16,7 @@ int sensor_in = A0;
 const char* days[] =
 {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
 const char* months[] =
-{"January", "February", "March", "April", "May", "June", "July", "August","September", "October", "November", "December"};
+{"0","January", "February", "March", "April", "May", "June", "July", "August","September", "October", "November", "December"};
  
 // Initializes all values: 
 byte ss = 0;
@@ -36,17 +36,13 @@ void setup()  {
   pinMode(ledYellowPin, OUTPUT);      // Set ledPin to output mode
   pinMode(ledGreenPin, OUTPUT);      // Set ledPin to output mode
   //delay(2000); // This delay allows the MCU to read the current date and time.
-  
-  Serial.print("The current date and time is: ");
-  digitalClockDisplay();
+ 
+ 
   Serial.println("Please change to newline ending the settings on the lower right of the Serial Monitor");
-  Serial.println("Would you like to set the date and time now? Y/N");
+  Serial.println("and set the date and time now:");
 
- while (!Serial.available()) delay(10);
-    if (Serial.read() == 'y' || Serial.read() == 'Y'){
     // This set of functions allows the user to change the date and time
     
-    Serial.read();
     setTime();
     digitalClockDisplay();
       if(timeStatus()!= 1) {
@@ -57,27 +53,42 @@ void setup()  {
         Serial.println("RTC has set the system time");      
         Serial.print("The current date and time is now: ");
         digitalClockDisplay();
+        Serial.println();
       }
-  } 
-}
+ 
+ }
 
-void loop()tu = map(sensorValue,2900,4750,2000,0); // Convert the analog reading (which goes from 0 - 1023) to a voltage (0 - 5V):
-  float ntu = map(sensorValue,2000,0,2900,4750{
+void loop(){
+//  tu = map(sensorValue,2900,4750,2000,0); // Convert the analog reading (which goes from 0 - 1023) to a voltage (0 - 5V):
+
   int sensorValue = analogRead(sensor_in);// read the input on analog pin 0:
-  float voltage = map(sensorValue,0,1023,0,5000); // Convert the analog reading (which goes from 0 - 1023) to a voltage (0 - 5V):
+  float voltage = sensorValue * (5000 / 1024.0); // Convert the analog reading (which goes from 0 - 1023) to a voltage (0 - 5V):
   //float n); 
+  long n = map(voltage,0,5000,2000,0);
+  float ntu = n/100.0;
   if(ntu > 10){       //read sensor signal 
       digitalWrite(ledRedPin, HIGH);   // if led is LOW, then turn on
+      //tone(7, 50, 1000);
   }else if (ntu <= 6 && ntu >= 10) {
+      //tone(7, 1500, 1000);
       digitalWrite(ledYellowPin, HIGH);    // if led is HIGH, then turn off the led
-  }else if (voltage < 6) {
+  }else if (ntu < 6) {
+      tone(7,2000, 1000);
       digitalWrite(ledGreenPin, HIGH);    // if led is HIGH, then turn off the led
+    
   }
   delay(1000);
   
   if (timeStatus() == 1 ) {
+   /* Serial.print("Sensor value: ");
+    Serial.print(sensorValue); // print out the value you read:
+    Serial.print("Voltage value: ");
+    Serial.print(voltage); // print out the value you read:
+    */
     Serial.print("NTU value: ");
     Serial.print(ntu); // print out the value you read:
+    Serial.print(" "); 
+    Serial.print("\t");
     digitalClockDisplay(); 
   } else {
     Serial.println("The time has not been set.  Please run the Time");
@@ -94,7 +105,7 @@ void setTime() {
   Serial.println(y);
   Serial.print("Please enter the current month, 1-12. - ");
   mth = readByte();
-  Serial.println(months[mth-1]);
+  Serial.println(months[mth]);
   Serial.print("Please enter the current day of the month, 1-31. - ");
   dd = readByte();
   Serial.println(dd);
@@ -131,15 +142,15 @@ byte readByte() {
 
 void digitalClockDisplay(){
   // digital clock display of the time
-  Serial.print("\t");
+  
   Serial.print(hour());
   printDigits(minute());
   printDigits(second());
   Serial.print(" ");
   Serial.print(day());
-  Serial.print(" ");
-  Serial.print(month());
-  Serial.print(" ");
+  Serial.print("/");
+  Serial.print(months[month()]);
+  Serial.print("/");
   Serial.print(year()); 
   Serial.println(); 
   

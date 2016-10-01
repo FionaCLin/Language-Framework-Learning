@@ -1,0 +1,101 @@
+<HTML>
+<HEAD>
+  <TITLE>COMP1917 Tutorial Week 8</TITLE>
+</HEAD>
+<style><!-- A {text-decoration:none} --></style>
+<BODY ALINK="#660000" VLINK="#000066" LINK="#800066" BGCOLOR="#ffffff">
+
+<H2><P><CENTER><B><FONT COLOR="#000066">
+COMP 1917 Computing 1<br>
+Session 2, 2016</FONT></B></CENTER></P></H2>
+
+<H2><P><CENTER><B>Tutorial - Week 8</B></CENTER></P></H2>
+
+<P><B><FONT SIZE=-1>
+<SCRIPT LANGUAGE="JavaScript">
+document.write("This page was last updated: " +
+document.lastModified);
+</SCRIPT>
+</FONT>
+</B>
+</P>
+
+<hr align=left>
+
+<h3>Presentation Topic for Week 8</h3>
+
+Discuss how and why abstraction is used in computer science? Can you think of an example of a function you used in this course where the internal complexity was abstracted away?
+<p>
+
+<hr align=left>
+
+<ol>
+
+In the previous tutorial, we created a <code>struct point</code> with the following definition:
+<pre>
+    struct point {
+      double x;
+      double y;
+    };
+</pre>
+In the following questions, we will refer to the struct through pointers, using <code>typedef struct point * Point</code> for convenience.<p>
+
+
+<li>
+Rewrite this expression using the "arrow" notation:<p>
+<code>(*((*speeding[s]).date)).year</code><p>
+<li>Write a function<p>
+<code>Point newPoint(double x, double y)</code><p>
+that creates a new point by initialising its values and uses malloc to dynamically allocate the structure. 
+<p>
+<li>Write a function<p>
+<code>void destroyPoint(Point p)</code><p>
+that deletes a point by freeing its underlying memory.
+<p>
+<li>Add functions <code>double getX(Point p)</code> and <code>double getY(Point p)</code> that returns the corresponding coordinate of a given point.
+<p>
+<li>Write a function<p>
+<code>void setPoint(Point p, double x, double y)</code><p>
+that sets the corresponding coordinates of a given point.
+<p>
+<li>Write a function<p>
+<code>void shiftPoint(Point p, double xDist, double yDist)</code><p>
+that adds given distances to the corresponding coordinates of a point.
+<p>
+<li>Separate the implementation from the user's function calls by placing the function declarations and <code>Point</code> typedef in a <code>Point.h</code> file and the function and struct definitions in <code>Point.c</code>. Only the main function should be left in your original file, which you can name <code>testPoint.c</code> (make sure to <code>#include "Point.h"</code> at the top of each <code>.c</code> file). How would you now compile this program?
+<p>
+<li>Add the following lines to your main function
+<pre>
+<code>
+	Point p = newPoint(0,0);
+	shiftPoint(p,1,-1);
+	printf("x value is: %d\n", getX(p));
+	printf("y value is: %d\n", getY(p));
+	destroyPoint(p);
+</code>
+</pre>
+What is the output?<p>
+<ol type="a">
+<li>Change the implementation of <code>shiftPoint()</code> to call <code>setPoint()</code> (or not call it if your implementation already does). Does the output change? Should it?<p>
+<li>Why would changing <code>getX(p)</code> to <code>p->x</code> not work?<p>
+</ol>
+<li>In terms of memory, what is the difference between our previous struct definition and our new method of handling pointers to the struct? Discuss the pros and cons of both. 
+<p>
+<li>Why is it important to release dynamically allocated memory after we are done with it? Can we still use this memory or assert anything about it after freeing it?
+<p>
+
+
+</ol>
+
+<hr align=left>
+
+<h3>Presentation Topic for Week 9</h3>
+
+What is the difference between black box and white box testing? Demonstrate how both work by writing corresponding tests for the point.c program we developed in the Week 8 tutorial.
+
+<p>
+<p>
+
+<hr align=left>
+</body>
+</html>

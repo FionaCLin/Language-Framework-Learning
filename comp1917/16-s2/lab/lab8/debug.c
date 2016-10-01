@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+#include <assert.h>
 #define MAX_COURSES 4
 
 #define PS 50
@@ -13,56 +13,56 @@ typedef struct _student {
     int zid;
     int wam;
     
-} student;
+} student_t ;
 
-double calcAvg(double marks[MAX_COURSES]);
-student * getData(int numStudents);
-int getNumFails(student * students, int numStudents);
-int getPrize(student * students, int numStudents);
+double calcAvg(double marks[MAX_COURSES], int size);
+student_t * getData(int numStudents);
+int getNumFails(student_t * students, int numStudents);
+int getPrize(student_t * students, int numStudents);
 
 int main (int argc, char * argv[]) {
     //get number of students
     int numStudents;
     printf("How many students do you want to calculate marks for? ");
-    scanf("%d", numStudents);
+    scanf("%d", &numStudents);
     
     //get students
-    studnet * students = getData(numStudents);
+    student_t * students = getData(numStudents);
     
     //find out how many failed
-    numFailes = getNumFails(students, numStudents);
-    if (numFails = 0) {
+    int numFails = getNumFails(students, numStudents);
+    if (numFails == 0) {
         printf("Yay everyone passed!\n");
     } else {
         printf("%d students failed :(\n", numFails);
     }
     
     //get university prize winner
-    int winner = getprize(students, numStudents);
-    print("The winner is z%d\n"", &winner);
+    int winner = getPrize(students, numStudents);
+    printf("The winner is z%d\n", winner);
     
     free(students);
 }
 
-student * getData(int numStudents) {
+student_t * getData(int numStudents) {
     //this function returns an array of students
     //with information entered by a user
     
     //malloc array
-    student * students = malloc(sizeof(student)*numStudents));
-    assert(student != NULL);
+    student_t * students = malloc(sizeof(student_t)*numStudents);
+    assert(students != NULL);
     
     //enter each student's info
     int i = 1;
-    while (i < size) {
+    while (i < numStudents) {
         //get zid
         printf("zID of student %d: ", i);
-        scanf("%d", &students.zid[i]);
+        scanf("%d", &students[i].zid);
         
         //get num courses
-        itn numCourses;
+        int numCourses;
         printf("How many courses is student z%d taking? ", students[i].zid);
-        scanf("%d", &numCOurses);
+        scanf("%d", &numCourses);
         assert(numCourses < MAX_COURSES);
         
         double * marks = malloc(sizeof(double) * numCourses);
@@ -72,14 +72,13 @@ student * getData(int numStudents) {
         printf("Please enter the marks for each course on a new line:\n");
         int j = 0;
         while (j <= numCourses) {
-            scanf("%f", &marks[j]);
-            assert(marks[j]) <= 100);
+            scanf("%lf", &marks[j]);
+            assert(marks[j] <= 100);
         }
         
         //calculate wam
         students[i].wam = calcAvg(marks, numCourses);
-        free(marks)
-        
+        free(marks);
         i++;
     }
     
@@ -106,14 +105,14 @@ double calcAvg(double marks[], int size) {
     
 }
 
-int getNumFails(student * students, int numStudents) {
+int getNumFails(student_t * students, int numStudents) {
     //calculate how many students failed
-    int i;
+    int i = 0;
     
     while (i < numStudents) {
         //if they haven't passed, increment counter
-        if (students.wam[i] < PS) {
-            count++;
+        if (students[i].wam < PS) {
+            i++;
         }
         i++;
     }
@@ -121,7 +120,7 @@ int getNumFails(student * students, int numStudents) {
     return i;
 }
 
-int getPrize(student * students, int numStudents) {
+int getPrize(student_t * students, int numStudents) {
     int i = 0;
     int max = 0;
     int winner;
@@ -132,10 +131,11 @@ int getPrize(student * students, int numStudents) {
         //current student is now highest wam
         if (students[i].wam > max) {
             max = students[i].wam;
-            winner = students[i].zID;
+            winner = students[i].zid;
             i++;
         }
         i++;
     }
     
     return winner;
+}
