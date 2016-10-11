@@ -101,12 +101,16 @@ void printMenu() {
 
 void readPkmnInput(int * id, char ** name, double * height, double *
         weight, int * type1, int * type2) {
-    *name = malloc( sizeof( MAX_LEN ) );
     int i;
+    char n[MAX_LEN];
     printf( "Enter ID: " );
     scanf( "%d", id );
     printf( "Enter name: " );
-    scanf( "%s", *name );
+    scanf( "%s", n );
+    *name = malloc( sizeof( char ) * ( strlen( n ) + 1 ) );
+    if ( *name != NULL ) {
+        strcp( *name, n );
+    }
     printf( "Enter height: " );
     scanf( "%lf", height );
     printf( "Enter weight: " );
