@@ -45,16 +45,16 @@ void setup()  {
     
     setTime();
     digitalClockDisplay();
-      if(timeStatus()!= 1) {
-        Serial.println(timeStatus());
-        Serial.println("Unable to sync with the RTC");
-        while(true);
-      }else{
-        Serial.println("RTC has set the system time");      
-        Serial.print("The current date and time is now: ");
-        digitalClockDisplay();
-        Serial.println();
-      }
+    if(timeStatus()!= 1) {
+      Serial.println(timeStatus());
+      Serial.println("Unable to sync with the RTC");
+      while(true);
+    }else{
+      Serial.println("RTC has set the system time");      
+      Serial.print("The current date and time is now: ");
+      digitalClockDisplay();
+      Serial.println();
+    }
  
  }
 
@@ -66,16 +66,12 @@ void loop(){
   //float n); 
   long n = map(voltage,0,5000,2000,0);
   float ntu = n/100.0;
-  if(ntu > 10){       //read sensor signal 
-      digitalWrite(ledRedPin, HIGH);   // if led is LOW, then turn on
-      //tone(7, 50, 1000);
+  if(ntu > 10){    //read sensor signal 
+    red_light();   // turn on red
   }else if (ntu <= 6 && ntu >= 10) {
-      //tone(7, 1500, 1000);
-      digitalWrite(ledYellowPin, HIGH);    // if led is HIGH, then turn off the led
+    yellow_light();// turn on yellow light
   }else if (ntu < 6) {
-      tone(7,2000, 1000);
-      digitalWrite(ledGreenPin, HIGH);    // if led is HIGH, then turn off the led
-    
+    green_light(); // turn on green light 
   }
   delay(1000);
   
@@ -98,6 +94,29 @@ void loop(){
   }
    delay(1000);
 }
+void green_light() {
+  Serial.println("green");
+  digitalWrite(ledGreenPin, HIGH);
+  digitalWrite(ledYellowPin, LOW);
+  digitalWrite(ledRedPin, LOW);
+}
+
+void yellow_light() {
+  Serial.println("yellow");
+  digitalWrite(ledGreenPin, LOW);
+  digitalWrite(ledYellowPin, HIGH);
+  digitalWrite(ledRedPin, LOW);
+}
+
+
+void red_light() {
+  Serial.println("red");
+  digitalWrite(ledGreenPin, LOW);
+  digitalWrite(ledYellowPin, LOW);
+  digitalWrite(ledRedPin, HIGH);
+}
+
+
 // This set of codes is allows input of data
 void setTime() {
   Serial.print("Please enter the current year, 00-99. - ");
