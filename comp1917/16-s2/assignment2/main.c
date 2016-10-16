@@ -14,6 +14,8 @@
 #include <stdlib.h>
 #include "Pkmn.h"
 
+#define MAX_LEN 50
+
 void printMenu();
 void readPkmnInput(int * id, char ** name, double * height, double *
         weight, int * type1, int * type2) ;
@@ -21,7 +23,7 @@ void readPkmnInput(int * id, char ** name, double * height, double *
 int main( int argc, char * argv[] ) {
 
     PkmnList list = createPkmnList();
-    int id, type1, type2;
+    int id, nid, type1, type2, seed, factor, numToFound;
     char * name;
     double height, weight;
     printMenu();
@@ -31,14 +33,6 @@ int main( int argc, char * argv[] ) {
         if( selection == 'a' ) {
             // ADD YOUR CODE HERE (to add a new Pokemon to the list)
             readPkmnInput( &id, &name, &height, &weight, &type1, &type2 );
-            printf("---You have enterred---\nID: #%03d \nName: %s\nHeight: %.2fm\nWeight: %.2fkg\n", id, name,
-                    height, weight);
-            printf( "Type: %s", getTypeString( type1 ) );
-            if ( type2 != -1) {
-                printf("/%s\n", getTypeString( type2 ) );
-            } else {
-                printf("\n");
-            }
             Pkmn new = createPkmn( id, name, height, weight, type1, type2);
             addPkmnToList( list, new );
         } else if ( selection == 'p' ) {
@@ -56,7 +50,7 @@ int main( int argc, char * argv[] ) {
             prevPkmn( list);
         } else if ( selection == 'j' ) {
             // ADD YOUR CODE HERE (to jump to a specific Pokemon)
-            printf( "Enter ID: " );
+            printf( "Id: " );
             scanf( "%d", &id );
             jumpToPkmn( list, id);
         } else if ( selection == 'r' ) {
@@ -64,13 +58,27 @@ int main( int argc, char * argv[] ) {
             removePkmn( list);
         } else if ( selection == 'f' ) {
             // ADD YOUR CODE HERE (to find Pokemon)
+            printf( "Seed: " );
+            scanf( "%d", &seed );
+            printf( "Factor: " );
+            scanf( "%d", &factor );
+            printf( "Number to find: " );
+            scanf( "%d", &numToFound );
+            findPkmn( seed, factor, numToFound, list );
         } else if ( selection == 'c' ) {
             // ADD YOUR CODE HERE (to count the number of Pokemon which
             // have been found))
+            printf( "%d Pokemon found.\n", totalFound( list ) );
         } else if ( selection == 'e' ) {
             // ADD YOUR CODE HERE (to add an evolution to a Pokemon)
+            printf( "Id of original Pokemon: " );
+            scanf( "%d", &id );
+            printf( "Id of evolution: " );
+            scanf( "%d", &nid );
+            addEvolution( list, id, nid );
         } else if ( selection == 's' ) {
             // ADD YOUR CODE HERE (to show the evolutions of the current Pokemon)
+            showEvolutions( list );
         }
 
         printMenu();
@@ -98,49 +106,19 @@ void printMenu() {
     printf( "s - Show the evolutions of the current Pokemon\n" );
     printf( "q - Quit\n" );
 }
-
 void readPkmnInput(int * id, char ** name, double * height, double *
         weight, int * type1, int * type2) {
-    int i;
-    char n[MAX_LEN];
-    printf( "Enter ID: " );
+    *name = malloc( sizeof( MAX_LEN ) );
+    printf( "Id: " );
     scanf( "%d", id );
-    printf( "Enter name: " );
-    scanf( "%s", n );
-    *name = malloc( sizeof( char ) * ( strlen( n ) + 1 ) );
-    if ( *name != NULL ) {
-        strcp( *name, n );
-    }
-    printf( "Enter height: " );
+    printf( "Name: " );
+    scanf( "%s", *name );
+    printf( "Height: " );
     scanf( "%lf", height );
-    printf( "Enter weight: " );
+    printf( "Weight: " );
     scanf( "%lf", weight );
-    printf( "Enter type1:" );
-    for ( i = 0; i < NUM_TYPES; i++ ) {
-        printf( " %d) %s", i, getTypeString( i ) );
-        if ( i < ( NUM_TYPES - 1 ) ) {
-            putchar( ';' );
-        } else {
-            putchar( ':' );
-        }
-        if ( i % 4 == 0 ) {
-            putchar( '\n' );
-
-        }
-    }
+    printf( "Type: " );
     scanf( "%d", type1 );
-    printf( "Enter type2:" );
-    for ( i = 0; i < NUM_TYPES; i++ ) {
-        printf( " %d) %s", i, getTypeString( i ) );
-        if ( i < ( NUM_TYPES - 1 ) ) {
-            putchar( ';' );
-        } else {
-            putchar( ':' );
-        }
-        if ( i % 4 == 0 ) {
-            putchar( '\n' );
-
-        }
-    }
+    printf( "Type: " );
     scanf( "%d", type2 );
 }
