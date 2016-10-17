@@ -1,0 +1,41 @@
+a - Add a Pokemon to the list
+p - Print list
+d - Display details of the current Pokemon
+> - Move to the next Pokemon
+< - Move to the previous Pokemon
+j - Jump to a specific Pokemon
+r - Remove the current Pokemon
+f - Find Pokemon
+c - Count the number of Pokemon which have been found
+e - Add an evolution to a Pokemon
+s - Show the evolutions of the current Pokemon
+q - Quit
+Id: Name: Height: Weight: Type: Type: a - Add a Pokemon to the list
+p - Print list
+d - Display details of the current Pokemon
+> - Move to the next Pokemon
+< - Move to the previous Pokemon
+j - Jump to a specific Pokemon
+r - Remove the current Pokemon
+f - Find Pokemon
+c - Count the number of Pokemon which have been found
+e - Add an evolution to a Pokemon
+s - Show the evolutions of the current Pokemon
+q - Quit
+Id: 001
+Name: *********
+Height: --
+Weight: --
+Type: --
+a - Add a Pokemon to the list
+p - Print list
+d - Display details of the current Pokemon
+> - Move to the next Pokemon
+< - Move to the previous Pokemon
+j - Jump to a specific Pokemon
+r - Remove the current Pokemon
+f - Find Pokemon
+c - Count the number of Pokemon which have been found
+e - Add an evolution to a Pokemon
+s - Show the evolutions of the current Pokemon
+q - Quit
