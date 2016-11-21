@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <time.h>
+#include <ctype.h>
+
 #include "Pkmn.h"
 
 #define FALSE 0
@@ -63,6 +64,43 @@ static void displayUnfoundName(char * name) {
         putchar('*');
     }
 }
+
+static void printPkmnListName(Pkmn pkmn, Pkmn cur) {
+    if (pkmn ==  cur) {
+        printf("--> #%03d: ", pkmn -> id);
+        if (pkmn -> isFound) {
+            printf("%s\n", pkmn -> name);
+        } else {
+            displayUnfoundName(pkmn -> name);
+            putchar('\n');
+        }
+    } else {
+        printf("    #%03d: ", pkmn -> id);
+        if (pkmn -> isFound) {
+            printf("%s\n", pkmn -> name);
+        } else {
+            displayUnfoundName(pkmn -> name);
+            putchar('\n');
+        }
+    }
+}
+
+static Pkmn cpPkmn(Pkmn pkmn) {
+    Pkmn newPkmn = malloc(sizeof(struct _pkmn));
+    if (newPkmn != NULL) {
+        newPkmn -> isFound = pkmn -> isFound;
+        newPkmn -> id = pkmn -> id;
+        newPkmn -> name = strdup(pkmn -> name);
+        newPkmn -> height = pkmn -> height;
+        newPkmn -> weight = pkmn -> weight;
+        newPkmn -> type1 = pkmn -> type1;
+        newPkmn -> type2 = pkmn -> type2;
+        newPkmn -> next = NULL;
+        newPkmn -> nextGenId = pkmn -> nextGenId;
+    }
+    return newPkmn;
+}
+
 static void printPkmn(Pkmn m) {
     // m stand for monster
     if (m != NULL) {
@@ -83,6 +121,7 @@ static void printPkmn(Pkmn m) {
         }
     }
 }
+
 static Pkmn fetchById(PkmnList list, int id) {
     Pkmn fetch = NULL;
     Pkmn curr = NULL;
@@ -97,7 +136,8 @@ static Pkmn fetchById(PkmnList list, int id) {
     }
     return fetch;
 }
-static int * sortListIds(PkmnList list){
+
+static int * sortListIds(PkmnList list) {
     int i = 0;
     Pkmn cur = NULL;
     int temp;
@@ -125,6 +165,41 @@ static int * sortListIds(PkmnList list){
     }
     return ids;
 }
+
+static int nContainsT(char * n, char * t) {
+    int contains = FALSE;
+    int i = 0;
+    int j = 0;
+    int nlen = 0;
+    int tlen = 0;
+
+    while (n[i] != '\0') {
+        i++;
+    }
+    nlen = i;
+    i = 0;
+    while (t[i] != '\0') {
+        i++;
+    }
+    tlen = i;
+    i = 0;
+    if (nlen >= tlen) {
+        while (n[i] != '\0') {
+            j = 0;
+            if (tolower(n[i + j]) == tolower(t[j])) {
+                while (t[j] != '\0' && tolower(n[i + j])  == tolower(t[j])) {
+                    j++;
+                }
+                if (t[j] == '\0') {
+                    contains = TRUE;
+                }
+            }
+            i++;
+        }
+    }
+    return contains;
+}
+
 const char * getTypeString(int i) {
     return TYPES[i];
 }
@@ -135,7 +210,7 @@ Pkmn createPkmn(int id, char * name, double height, double weight, int type1, in
     if (newPkmn != NULL) {
         newPkmn -> isFound = FALSE;
         newPkmn -> id = id;
-        newPkmn -> name = name;
+        newPkmn -> name = strdup(name);
         newPkmn -> height = height;
         newPkmn -> weight = weight;
         newPkmn -> type1 = type1;
@@ -148,7 +223,7 @@ Pkmn createPkmn(int id, char * name, double height, double weight, int type1, in
 
 void printCurrentPkmn(PkmnList list) {
     // ADD YOUR CODE HERE
-    if (list != NULL)   {
+    if (list != NULL) {
         if (list -> size != 0) {
             printPkmn(list -> cur);
         } else {
@@ -176,6 +251,7 @@ void freePkmnList(PkmnList list) {
     while (list != NULL && list -> head != NULL) {
         cur = list -> head;
         list -> head = cur -> next;
+        free(cur->name);       
         free(cur);       
     }
     free(list);
@@ -197,26 +273,6 @@ void addPkmnToList(PkmnList list, Pkmn pkmn) {
             } 
         }
         (list -> size)++;
-
-    }
-}
-static void printPkmnListName(Pkmn pkmn, Pkmn cur ) {
-    if (pkmn ==  cur) {
-        printf("--> #%03d: ", pkmn -> id);
-        if (pkmn -> isFound) {
-            printf("%s\n", pkmn -> name);
-        } else {
-            displayUnfoundName(pkmn -> name);
-            putchar('\n');
-        }
-    } else {
-        printf("    #%03d: ", pkmn -> id);
-        if (pkmn -> isFound) {
-            printf("%s\n", pkmn -> name);
-        } else {
-            displayUnfoundName(pkmn -> name);
-            putchar('\n');
-        }
     }
 }
 void printPkmnList(PkmnList list) {
@@ -231,13 +287,12 @@ void printPkmnList(PkmnList list) {
                 printPkmnListName(cur, list-> cur);            
             }
 
-
+            free(res);
         } else {
             printf("No Pokemon in list.\n");
         }
     }
 } 
-
 
 void nextPkmn(PkmnList list) {
     // ADD YOUR CODE HERE
@@ -258,12 +313,12 @@ void prevPkmn(PkmnList list) {
     Pkmn cur = NULL;
     if (list != NULL) {
         cur = list -> head;
-        if (cur != list -> cur){
+        if (cur != list -> cur) {
             while (cur != NULL && cur -> next != NULL 
                     && cur -> next != list -> cur) {
                 cur = cur -> next;
             }
-            //            if (list -> size != 1){}
+            //            if (list -> size != 1) {}
             list -> cur = cur;
         }
     }
@@ -274,7 +329,7 @@ void jumpToPkmn(PkmnList list, int id) {
     Pkmn cur = NULL;
     if (list != NULL) {
         cur = fetchById(list, id);
-        if (cur != NULL){
+        if (cur != NULL) {
             list -> cur = cur;
         }
     }
@@ -300,60 +355,62 @@ void removePkmn(PkmnList list) {
     }
 }
 
-// Stage 3 Functions
+//Stage 3 Functions
 //void findPkmn(int seed, int factor, int numberOfNewPkmn, PkmnList list) {
-//    // ADD YOUR CODE HERE
-//    srandom(seed);
-//    if (numberOfNewPkmn != 0) {
-//        Pkmn cur = NULL;
-//        //int i = 0;
-//        int numFound = 0;
-//        while (numFound < numberOfNewPkmn) {
-//            int num = (rand() % factor);
-//            printf("generate Id: %d\n", num);
-//            if (list != NULL && list -> head != NULL) {
-//                cur = list -> head;
-//                while (cur -> next != NULL && cur -> id != num ) {
-//                    cur = cur -> next;
-//                }
-//                if (cur -> id == num ){
-//                    if( !(cur -> isFound) ) {
-//                        cur -> isFound = TRUE;
-//                        (list -> numFound)++;
-//                    }
-//                }
-//            }
-//            numFound++;
-//        }
-//    }
+//   // ADD YOUR CODE HERE
+//   srandom(seed);
+//   if (numberOfNewPkmn > 0) {
+//       Pkmn cur = NULL;
+//       int numFound = 0;
+//       while (numFound < numberOfNewPkmn) {
+//           int num =(rand() % factor);
+//           if (list != NULL && list -> head != NULL) {
+//               cur = list -> head;
+//               while (cur -> next != NULL && cur -> id != num) {
+//                   cur = cur -> next;
+//               }
+//               if (cur -> id == num) {
+//                   if (!(cur -> isFound)) {
+//                       cur -> isFound = TRUE;
+//                       (list -> numFound)++;
+//                       numFound++;
+//                   }
+//               }
+//           }
+//       }
+//   }
 //}
-//
-void findPkmn(int seed, int factor, int numberOfNewPkmn, PkmnList list) {
+
+
+//recursion findPkmn function 
+void findPkmn (int seed, int factor, int numberOfNewPkmn, PkmnList list) {
+
     // ADD YOUR CODE HERE
-    if (numberOfNewPkmn != 0) {
+    if (numberOfNewPkmn > 0) {
         Pkmn cur = NULL;
-        if (numberOfNewPkmn == 1){
-            srandom(seed);
-        } else {
-            findPkmn(seed, factor, numberOfNewPkmn - 1, list); 
-        }
-        //int i = 0;
-        int num = ((rand() % factor) + 1);
-//        printf("generate Id: %d\n", num);
+        int num = (rand () % factor);
+        //printf ("%d\n", num);
         if (list != NULL && list -> head != NULL) {
             cur = list -> head;
-            while (cur -> next != NULL && cur -> id != num ) {
+            while (cur -> next != NULL && cur -> id != num) {
                 cur = cur -> next;
             }
-            if (cur -> id == num ){
-                if( !(cur -> isFound) ) {
+            if (cur -> id == num && !(cur -> isFound)) {
                     cur -> isFound = TRUE;
                     (list -> numFound)++;
-                }
+                    findPkmn (seed, factor, numberOfNewPkmn - 1, list);
+            } else {
+                findPkmn (seed, factor, numberOfNewPkmn, list);
             }
         }
+    } else if (numberOfNewPkmn == 0) {
+        srandom (seed);
     }
 }
+
+
+
+
 
 int totalFound(PkmnList list) {
     // ADD YOUR CODE HERE
@@ -363,7 +420,6 @@ int totalFound(PkmnList list) {
     }
     return re;
 }
-
 
 // Stage 4 Functions
 void addEvolution(PkmnList list, int pkmnId, int evolutionId) {
@@ -398,6 +454,7 @@ void showPkmnEvolutions(PkmnList list, int id) {
         printf("#%03d ?????\n", id);
     }
 }
+
 void showEvolutions(PkmnList list) {
     // ADD YOUR CODE HERE
     Pkmn cur = NULL; 
@@ -417,14 +474,34 @@ PkmnList getPkmnOfType(PkmnList list, int type) {
     if (type < -1 || type > 18) {
         printf("Invalid type.");
     } else {
-        newlist = createPkmnList();
+        if (list != NULL) {
+            newlist = createPkmnList();
+            if (list -> head != NULL) {
+                Pkmn cur = list -> head;
+                while (cur != NULL) {
+                    if ((cur -> type1 == type) ||(cur -> type2 == type)) {
+                        if (newlist != NULL) {
+                            addPkmnToList(newlist, cpPkmn(cur));
+                        }
+                    }
+                    cur = cur -> next;
+                } 
+            }
+        }
+    }
+    return newlist;
+}
+
+PkmnList getFoundPkmn(PkmnList list) {
+    // ADD YOUR CODE HERE
+    PkmnList newlist = NULL;
+    newlist = createPkmnList();
+    if (list != NULL && newlist != NULL) {
         if (list -> head != NULL) {
             Pkmn cur = list -> head;
             while (cur != NULL) {
-                if ((cur -> type1 == type) || (cur -> type2 == type)) {
-                    if (newlist != NULL) {
-                        addPkmnToList(newlist, cur);
-                    }
+                if (cur -> isFound == TRUE) {
+                    addPkmnToList(newlist, cpPkmn(cur));
                 }
                 cur = cur -> next;
             } 
@@ -433,13 +510,21 @@ PkmnList getPkmnOfType(PkmnList list, int type) {
     return newlist;
 }
 
-PkmnList getFoundPkmn(PkmnList list) {
-    // ADD YOUR CODE HERE
-    return NULL;
-}
-
 PkmnList searchByName(PkmnList list, char text[]) {
     // ADD YOUR CODE HERE
-    return NULL;
+    PkmnList newlist = NULL;
+    newlist = createPkmnList();
+    if (list != NULL && newlist != NULL) {
+        if (list -> head != NULL) {
+            Pkmn cur = list -> head;
+            while (cur != NULL) {
+                if (nContainsT(cur -> name, text)) {
+                    addPkmnToList(newlist, cpPkmn(cur));
+                }
+                cur = cur -> next;
+            } 
+        }
+    }
+    return newlist;
 }
 
