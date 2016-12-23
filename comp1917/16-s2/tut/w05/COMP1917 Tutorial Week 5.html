@@ -1,0 +1,122 @@
+
+<!-- saved from url=(0053)http://www.cse.unsw.edu.au/~cs1917/16s2/tut/wk05.html -->
+<html class="gr__cse_unsw_edu_au"><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+  <title>COMP1917 Tutorial Week 5</title>
+<style><!-- A {text-decoration:none} --></style></head>
+
+<body alink="#660000" vlink="#000066" link="#800066" bgcolor="#ffffff" data-gr-c-s-loaded="true">
+
+<h2><p></p><center><b><font color="#000066">
+COMP 1917 Computing 1<br>
+Session 2, 2016</font></b></center><p></p></h2>
+
+<h2><p></p><center><b>Tutorial - Week 5</b></center><p></p></h2>
+
+<p><b><font size="-1">
+<script language="JavaScript">
+document.write("This page was last updated: " +
+document.lastModified);
+</script>This page was last updated: 08/19/2016 11:08:11
+</font>
+</b>
+</p>
+
+<hr align="LEFT">
+
+<h3>Presentation Topic for Week 5</h3>
+
+Explain Variable Scope in programming(C as an example).
+How can it be useful? How can it be dangerous? 
+Some examples will be great.
+<p>
+
+</p><hr align="LEFT">
+
+<ol>
+<li>
+Write a C function
+<pre>void swap (int* first, int* second);
+</pre>
+which takes in pointers to two integers first and second which are declared in the calling function, and then swaps them around so that when swap returns first now has the value that second initially held, and second now has the value that first initially held.
+<p>
+</p></li><li>
+Explain what is the problem with the following function:
+<pre>void swap (int first, int second);
+</pre>
+</li><li>
+Given these declarations
+<pre>int     n;
+int    *p, *q;
+double  x;
+double *r;
+</pre>
+What will happen when each of the following statements
+is executed (in order)?
+If any of them cause an error, explain why.
+<pre>a.  p = &amp;n;
+b. *p =  5;
+c. *q = 17;
+d.  q =  p;
+e. *q =  8;
+f.  r = &amp;x;
+g. *r = 3.0;
+h. *p = *r;
+i.  p =  r;
+j. *p =  n;
+k.  n =  x;
+</pre>
+
+</li><li>
+Write a function
+<pre>double max_value(int n, double a[])
+</pre>
+which accepts a positive integer <code>n</code>
+as well as an array of <code>n</code> doubles,
+and returns the maximum of the <code>n</code> values
+in that array.
+<p>
+
+</p></li><li>
+Write a function
+<pre>int non_decreasing( int a[], int N )
+</pre>
+which takes an integer <code>N</code> together with an array <code>a</code>[] of <code>N</code> integers
+and checks to see whether the items in the array are sorted in non-decreasing order
+(i.e. <code>a[i] &#8805; a[i-1]</code>, for <code>0&lt;i&lt;N</code>).
+Your function should returns <code>1</code> if the items are in non-decreasing order,
+<code>0</code> otherwise.
+<p>
+
+</p></li><li>
+Write a function
+<pre>int findIndex( int x, int a[], int N )
+</pre>
+which takes two integers <code>x</code> and <code>N</code> together with an array
+<code>a</code>[] of <code>N</code> integers
+and searches for the specified value <code>x</code> within the array.
+Your function should return the smallest index <code>k</code>
+such that <code>a</code>[<code>k</code>] is equal to <code>x</code>
+(or <code>-1</code> if <code>x</code> does not occur in the array).
+<p>
+
+</p></li><li>
+Write a function 
+<pre>int find_in_grid( int x, int grid[SIZE][SIZE], int size)
+</pre> 
+that finds a special value in two dimensional array. You can use the stub code provided <a href="http://www.cse.unsw.edu.au/~cs1917/16s2/code/grid.c">here</a> to test it.
+
+</li></ol>
+
+<hr>
+
+<h3>Presentation Topic for Week 6</h3>
+
+Explore memory. Find out the number of bytes that C uses on your system to store the various types described below. Hint: You can use sizeof() function to print the number of bytes that given type uses(e.g <code>printf("%lu\n", sizeof(int)</code>)
+<pre>char, int, unsigned int, long long, unsigned long long, float, double
+</pre> 
+Are types signed or unsigned by default? What are the maximum and minimum values you can store in each of the types?  What happens if you add 1 to the maximum value of a type, what happens if you subtract 1 from the minimum value of the type?
+<p></p><hr align="LEFT">
+
+
+
+</body><span class="gr__tooltip"><span class="gr__tooltip-content"></span><i class="gr__tooltip-logo"></i><span class="gr__triangle"></span></span></html>
